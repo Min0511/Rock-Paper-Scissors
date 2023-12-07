@@ -1,3 +1,7 @@
+const choiceBtn = document.querySelectorAll(".choiceBtn");
+const output = document.querySelector(".output");
+let userScore = 0;
+let computerScore = 0;
 
 function getComputerchoice(){
     let selectedNumber = Math.floor(Math.random()*10);
@@ -16,60 +20,52 @@ function getComputerchoice(){
     return RPS;
 }
 
+choiceBtn.forEach(button => button.addEventListener("click",()=>{
+    let playerSelection = button.textContent.toLowerCase();
+    let computerSelection = getComputerchoice();
+    playRound(playerSelection, computerSelection);
+    finalResult();
+}));
+
 function playRound(playerSelection, computerSelection){
-    let result
     // case user : Rock
     if(playerSelection === "rock" && computerSelection === "Rock"){
-        result = "Draw!"
+        output.textContent = "Draw!"
     }else if(playerSelection === "rock" && computerSelection === "Paper"){
-        result = "You Lose! Paper beats Rock"
+        output.textContent = "You Lose! Paper beats Rock"
     }else if(playerSelection === "rock" && computerSelection === "Scissors"){
-        result = "You Win! Rock beats Scissors"
+        output.textContent = "You Win! Rock beats Scissors"
     }
     // case user : Paper
     else if(playerSelection === "paper" && computerSelection === "Rock"){
-        result = "You Win! Paper beats Rock"
+        output.textContent = "You Win! Paper beats Rock"
     }else if(playerSelection === "paper" && computerSelection === "Paper"){
-        result = "Draw"
+        output.textContent = "Draw!"
     }else if(playerSelection === "paper" && computerSelection === "Scissors"){
-        result = "You Lose! Scissors beats Paper"
+        output.textContent = "You Lose! Scissors beats Paper"
     }
     // case user : Scissors
     else if(playerSelection === "scissors" && computerSelection === "Rock"){
-        result = "You Lose! Rock beats Scissors"
+        output.textContent = "You Lose! Rock beats Scissors"
     }else if(playerSelection === "scissors" && computerSelection === "Paper"){
-        result = "You Win! Scissors beats Paper"
+        output.textContent = "You Win! Scissors beats Paper"
     }else if(playerSelection === "scissors" && computerSelection === "Scissors"){
-        result = "Draw"
+        output.textContent = "Draw!"
     }
-    return result
 }
 
-function game(){
-    for(let i = 1 ; i <= 5; i++){
-        const userEnter = prompt("Enter You Rock, Paper, Scissors : ",);
-        const playerSelection = userEnter.toLowerCase();
-        const computerSelection = getComputerchoice();
-        console.log(playRound(playerSelection, computerSelection));
-        let score = playRound(playerSelection, computerSelection).charAt(4);
-
-        if(score === "W"){
-            counts = counts + 1
-        }else if(score === "L"){
-            counts = counts - 1
-        };
-        }
-    if(counts > 0){
-        console.log("You Win!");
-    }else if(counts < 0){
-        console.log("You Lose!");
-    }else{
-        console.log("Draw!");
-    }
+function finalResult(){
+    let score = output.textContent.charAt(4);
+    if(score === "W"){
+        userScore += 1
+        console.log("User Score" + userScore);
+    }else if(score === "L"){
+        computerScore += 1
+        console.log("Computer score : " + computerScore)
     };
-
-let counts = 0;
-game();
-
-
-// how to upgrade when I enter someting with typo then alert 'try again'
+    if(userScore === 5){
+        alert("YOU WIN!")
+    }else if(computerScore === 5){
+        alert("COMPUTER WIN!")
+    }
+}
